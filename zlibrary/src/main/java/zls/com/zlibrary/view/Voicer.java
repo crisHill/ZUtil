@@ -11,6 +11,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -54,6 +55,9 @@ public class Voicer extends View {
     private int curColor = COLOR_TWO;
     private String curText = STR_OFF;
     private int curAlpha = ALPHA_ON;//Alpha取值范围为0~255，数值越小越透明
+    private boolean everMove;
+
+    private int lastX, lastY;
 
     //间接获取的属性
     private int maxRadius, minRadius, radiusChangeStep;
@@ -68,7 +72,7 @@ public class Voicer extends View {
     public Voicer(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
-        setOnClickListener(v -> switchOnOff());
+        //setOnClickListener(v -> switchOnOff());
     }
 
     private void switchOnOff() {
@@ -121,6 +125,54 @@ public class Voicer extends View {
                         }
                     }
                 });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN){
+            lastX = (int) event.getRawX();
+            lastY = (int) event.getRawY();
+        }else if(event.getAction() == MotionEvent.ACTION_MOVE){
+            int x = (int) event.getRawX();
+            int y = (int) event.getRawY();
+            int deltaX = x - lastX;
+            int deltaY = y - lastY;
+            if(deltaX * deltaX + deltaY * deltaY > 4){
+                updateLocation(deltaX, deltaY);
+                lastX = x;
+                lastY = y;
+                everMove = true;
+            }
+        }else if(event.getAction() == MotionEvent.ACTION_UP){
+            if(everMove){
+                everMove = false;
+            }else {
+                switchOnOff();
+            }
+        }
+        return true;
+    }
+
+    private void updateLocation(int deltaX, int deltaY) {
+        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) getLayoutParams();
+        lp.leftMargin += deltaX;
+        lp.topMargin += deltaY;
+
+        if(lp.leftMargin + getWidth() > ((View)getParent()).getWidth()){
+            lp.leftMargin = ((View)getParent()).getWidth() - getWidth();
+        }
+        if(lp.leftMargin < 0){
+            lp.leftMargin = 0;
+        }
+
+        if(lp.topMargin + getHeight() > ((View)getParent()).getHeight()){
+            lp.topMargin = ((View)getParent()).getHeight() - getHeight();
+        }
+        if(lp.topMargin < 0){
+            lp.topMargin = 0;
+        }
+
+        setLayoutParams(lp);
     }
 
     @Override

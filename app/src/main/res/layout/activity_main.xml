@@ -31,8 +31,7 @@
     <zls.com.zlibrary.view.Voicer
         android:layout_width="350dp"
         android:layout_height="350dp"
-        android:layout_below="@id/dp"
-        android:layout_margin="10dp"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="100dp"/>
 
 </RelativeLayout>
