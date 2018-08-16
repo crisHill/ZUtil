@@ -1,0 +1,7 @@
+<resources>
+    <declare-styleable name="VoiceButton">
+        <attr name="maxRadius" format="dimension" />
+        <attr name="circleColor1" format="color" />
+        <attr name="circleColor2" format="color" />
+    </declare-styleable>
+</resources>

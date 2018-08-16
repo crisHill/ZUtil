@@ -1,0 +1,14 @@
+<resources>
+    <declare-styleable name="DownloadProgress">
+        <attr name="borderColor" format="color" />
+        <attr name="borderWidth" format="dimension" />
+        <attr name="downloadingCompleteColor" format="color" />
+        <attr name="downloadingUnCompleteColor" format="color" />
+        <attr name="pauseCompleteColor" format="color" />
+        <attr name="pauseUnCompleteColor" format="color" />
+        <attr name="progress" format="float" />
+        <attr name="textSize" format="dimension" />
+        <attr name="downloading" format="boolean" />
+        <attr name="showProgressText" format="boolean" />
+    </declare-styleable>
+</resources>
