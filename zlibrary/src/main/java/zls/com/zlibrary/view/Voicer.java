@@ -4,24 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.os.Handler;
-import android.os.Message;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
 import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.ObservableEmitter;
-import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
@@ -36,7 +26,7 @@ public class Voicer extends View {
     //默认属性
     private final int COLOR_ONE = Color.parseColor("#87CEFA");
     private final int COLOR_TWO = Color.parseColor("#55FFCC");
-    private final int SLEEP_TIME = 150;
+    private final int SLEEP_TIME = 200;
     private final String STR_ON = "listening";
     private final String STR_OFF = "speak";
     private final int ALPHA_OFF = 50;
@@ -64,6 +54,11 @@ public class Voicer extends View {
     //private Subscription subscription = null;
     private Disposable disposable;
 
+    public static Voicer create(Context context, int diameter){
+        Voicer voicer = new Voicer(context);
+        voicer.setLayoutParams(new ViewGroup.LayoutParams(diameter, diameter));
+        return voicer;
+    }
 
     public Voicer(Context context) {
         this(context, null);
@@ -98,7 +93,7 @@ public class Voicer extends View {
     }
 
     private void startCircling() {
-        disposable = Observable.interval(200, TimeUnit.MILLISECONDS)
+        disposable = Observable.interval(SLEEP_TIME, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<Long>() {

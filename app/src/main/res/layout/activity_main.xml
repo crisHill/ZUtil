@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="zls.com.zutil.MainActivity">
+    tools:context="zls.com.zutil.MainActivity"
+    android:id="@+id/root">
 
     <TextView
         android:id="@+id/tv"
@@ -27,11 +28,5 @@
         app:showProgressText="true"
         app:progress="35"
         app:downloading="true" />
-
-    <zls.com.zlibrary.view.Voicer
-        android:layout_width="350dp"
-        android:layout_height="350dp"
-        android:layout_marginTop="300dp"
-        android:layout_marginLeft="100dp"/>
 
 </RelativeLayout>
