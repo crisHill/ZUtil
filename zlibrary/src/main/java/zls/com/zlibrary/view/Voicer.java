@@ -16,7 +16,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import zls.com.zlibrary.StringUtil;
+import zls.com.zlibrary.util.StringUtil;
 
 /**
  * TODO: document your custom view class.
