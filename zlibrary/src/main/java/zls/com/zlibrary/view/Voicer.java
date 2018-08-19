@@ -9,12 +9,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 import zls.com.zlibrary.util.StringUtil;
 
@@ -96,27 +94,24 @@ public class Voicer extends View {
         disposable = Observable.interval(SLEEP_TIME, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<Long>() {
-                    @Override
-                    public void accept(Long aLong) throws Exception {
-                        if(on){
-                            curRadius += radiusChangeStep;
-                            if(curRadius > maxRadius){
-                                curRadius = minRadius;
-                            }
+                .subscribe(aLong -> {
+                    if(on){
+                        curRadius += radiusChangeStep;
+                        if(curRadius > maxRadius){
+                            curRadius = minRadius;
+                        }
 
-                            if(curColor == COLOR_ONE){
-                                curColor = COLOR_TWO;
-                            }else {
-                                curColor = COLOR_ONE;
-                            }
-
-                            invalidate();
-
+                        if(curColor == COLOR_ONE){
+                            curColor = COLOR_TWO;
                         }else {
-                            if(disposable != null){
-                                disposable.dispose();
-                            }
+                            curColor = COLOR_ONE;
+                        }
+
+                        invalidate();
+
+                    }else {
+                        if(disposable != null){
+                            disposable.dispose();
                         }
                     }
                 });
@@ -149,7 +144,7 @@ public class Voicer extends View {
     }
 
     private void updateLocation(int deltaX, int deltaY) {
-        RelativeLayout.LayoutParams lp = (RelativeLayout.LayoutParams) getLayoutParams();
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) getLayoutParams();
         lp.leftMargin += deltaX;
         lp.topMargin += deltaY;
 
